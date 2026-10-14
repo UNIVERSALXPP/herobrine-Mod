@@ -13,7 +13,7 @@ public class HerobrineRenderer
         extends LivingEntityRenderer<HerobrineEntity, HumanoidRenderState, HumanoidModel<HumanoidRenderState>> {
 
     private static final Identifier TEXTURE =
-            Identifier.fromNamespaceAndPath(HerobrineRitualMod.MOD_ID, "textures/entity/herobrine.png");
+            Identifier.fromNamespaceAndPath(HerobrineRitualMod.MOD_ID, "herobrine.png");
 
     public HerobrineRenderer(EntityRendererProvider.Context context) {
         super(context, new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER)), 0.5F);

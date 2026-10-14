@@ -9,7 +9,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.level.levelgen.Heightmap;
 
 /**
  * Harmless Herobrine: no AI goals are registered, so he just stands there.
@@ -18,11 +17,8 @@ import net.minecraft.world.level.levelgen.Heightmap;
 public class HerobrineEntity extends Mob {
     /** Ticks between lightning strikes (20 ticks = 1 second). Lower = more thunder. */
     private static final int STRIKE_INTERVAL_TICKS = 12;
-    /** Lightning lands between these distances (in blocks) from Herobrine. */
-    private static final double MIN_STRIKE_DISTANCE = 3.0D;
-    private static final double MAX_STRIKE_DISTANCE = 9.0D;
     /** true = only visual + sound lightning (no damage, no fire). */
-    private static final boolean VISUAL_ONLY_LIGHTNING = false;
+    private static final boolean VISUAL_ONLY_LIGHTNING = true;
 
     public HerobrineEntity(EntityType<? extends Mob> type, Level level) {
         super(type, level);
@@ -66,20 +62,13 @@ public class HerobrineEntity extends Mob {
     }
 
     private void strikeLightning(ServerLevel level) {
-        double angle = this.random.nextDouble() * Math.PI * 2.0D;
-        double distance = MIN_STRIKE_DISTANCE + this.random.nextDouble() * (MAX_STRIKE_DISTANCE - MIN_STRIKE_DISTANCE);
-        double x = this.getX() + Math.cos(angle) * distance;
-        double z = this.getZ() + Math.sin(angle) * distance;
+        // Lightning always lands exactly on the spot where the ritual was lit.
+        double x = this.getX();
+        double y = this.getY();
+        double z = this.getZ();
 
-        BlockPos columnPos = BlockPos.containing(x, this.getY(), z);
-        if (!level.hasChunkAt(columnPos)) {
+        if (!level.hasChunkAt(BlockPos.containing(x, y, z))) {
             return;
-        }
-
-        double y = level.getHeight(Heightmap.Types.MOTION_BLOCKING, columnPos.getX(), columnPos.getZ());
-        if (y > this.getY() + 6.0D) {
-            // Inside a cave/roof: strike at his own level instead of the surface far above.
-            y = this.getY();
         }
 
         LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(level, EntitySpawnReason.TRIGGERED);

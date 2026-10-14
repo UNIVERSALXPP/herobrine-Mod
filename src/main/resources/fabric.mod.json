@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "herobrineritual",
+  "version": "${version}",
+  "name": "Herobrine Ritual",
+  "description": "Summon a harmless Herobrine with the classic ritual. He does nothing, but lightning strikes around him nonstop.",
+  "authors": ["Universal_XP_"],
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["com.universalxp.herobrine.HerobrineRitualMod"],
+    "client": ["com.universalxp.herobrine.client.HerobrineRitualClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.18.1",
+    "minecraft": "~1.21.11",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
